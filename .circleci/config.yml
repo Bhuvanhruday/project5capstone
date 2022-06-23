@@ -20,7 +20,7 @@ jobs:
         - run:
             name: Run Lint
             command: |
-              hadolint Dockerfile
+              /bin/hadolint Dockerfile
     build-docker-image:
       docker:
         - image: circleci/node:13.8.0
@@ -35,7 +35,7 @@ jobs:
             command: |
               export TAG=v${CIRCLE_BUILD_NUM}
               export IMAGE_NAME=capstone
-              docker build -t Bhuvanhruday/$IMAGE_NAME:$TAG .
+              docker build -t bhuvanhruday/$IMAGE_NAME:$TAG .
     push-docker-image:
       docker:
         - image: circleci/node:13.8.0
@@ -48,9 +48,9 @@ jobs:
             command: |
               export TAG=v${CIRCLE_BUILD_NUM}
               export IMAGE_NAME=capstone
-              docker build -t Bhuvanhruday/$IMAGE_NAME:$TAG .
-              docker login -u Bhuvanhruday -p n789@ajk90-j 
-              docker push Bhuvanhruday/$IMAGE_NAME:$TAG
+              docker build -t bhuvanhruday/$IMAGE_NAME:$TAG .
+              docker login -u Bhuvanhruday -p Bhuhru@02
+              docker push bhuvanhruday/$IMAGE_NAME:$TAG
     deploy-application:
       executor: aws-eks/python3
       parameters:
