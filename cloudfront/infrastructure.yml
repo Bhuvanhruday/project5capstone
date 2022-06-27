@@ -27,7 +27,7 @@ Resources:
       InstanceType: t2.micro
       SecurityGroups:
         - Ref: InstanceSecurityGroup
-      KeyName: proj3dellkp
+      KeyName: iamfinal
       ImageId: ami-07dd19a7900a1f049
       Tags:
         - Key: Name
