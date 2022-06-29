@@ -142,11 +142,10 @@ workflows:
           requires:
             - "build-docker-image"
       - aws-ecr/build-and-push-image:
-          name: build-and-push-image-ecr
-          
+          name: build-and-push-image-ecr   
          
-          repo: capstone
-          tag: v52
+          repo: bmailazhagan/capstone
+          
           
           
          
