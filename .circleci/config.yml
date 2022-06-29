@@ -147,8 +147,10 @@ workflows:
           region: ${AWS_DEFAULT_REGION}
           repo: project5capstone
           tag: ${CIRCLE_SHA1}
-          docker build -t ${DOCKER_LOGIN}/${IMAGE_NAME}:${CIRCLE_SHA1} .
-          docker push ${DOCKER_LOGIN}/${IMAGE_NAME}
+          requires:
+             - docker build -t bmailazhagan/$IMAGE_NAME:$TAG .
+             - docker push ${DOCKER_LOGIN}/${IMAGE_NAME}
+          
       - aws-eks/create-cluster:
           cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
           aws-region: $AWS_DEFAULT_REGION
