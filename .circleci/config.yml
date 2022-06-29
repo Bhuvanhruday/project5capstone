@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
   aws-eks: circleci/aws-eks@1.1.0
-  aws-ecr: circleci/aws-ecr@0.0.4
+  aws-ecr: circleci/aws-ecr@6.15.2
   kubernetes: circleci/kubernetes@0.12.0
 
 jobs:
@@ -141,7 +141,7 @@ workflows:
       - push-docker-image:
           requires:
             - "build-docker-image"
-      - aws-ecr/build_and_push_image:
+      - aws-ecr/build-and-push-image:
           name: build-and-push-image-ecr
           account-url: bmailazhagan
           region: ${AWS_DEFAULT_REGION}
