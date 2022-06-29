@@ -83,7 +83,9 @@ jobs:
             resource-name: deployment/capstone
     
     test-application:
-        executor: aws-eks/python3
+        docker:
+      # Use the same Docker base as the project
+          - image: python:3.7.3-stretch
         parameters:
           cluster-name:
             description: |
@@ -110,7 +112,9 @@ jobs:
                 kubectl get pods
                 kubectl get services
     undeploy-application:
-      executor: aws-eks/python3
+      docker:
+      # Use the same Docker base as the project
+        - image: python:3.7.3-stretch
       parameters:
         cluster-name:
           description: |
