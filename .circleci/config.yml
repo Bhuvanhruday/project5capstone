@@ -81,21 +81,6 @@ jobs:
             resource-file-path: "deployments/deployment.yml"
             resource-name: deployment/capstone
     
-    docker_hub_build_push_image:
-    docker:
-      - image: circleci/python:2.7.14
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: false
-      - run:
-          name: Build and push Docker image to Docker Hub
-          command: |
-            
-            docker build -t ${DOCKER_LOGIN}/${IMAGE_NAME} -t ${DOCKER_LOGIN}/${IMAGE_NAME}:${TAG} .
-            echo ${DOCKER_PWD} | docker login -u ${DOCKER_LOGIN} --password-stdin
-            docker push ${DOCKER_LOGIN}/${IMAGE_NAME}
-
     test-application:
         executor: aws-eks/python3
         parameters:
@@ -163,7 +148,7 @@ workflows:
           repo: project5capstone
           tag: ${CIRCLE_SHA1}
           requires:
-            - docker_hub_build_push_image
+            - push-docker-image
           
          
           
