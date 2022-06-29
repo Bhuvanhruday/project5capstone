@@ -33,7 +33,7 @@ jobs:
         - run:
             name: Build Docker Image
             command: |
-              export TAG=v${CIRCLE_BUILD_NUM}
+              export TAG=${CIRCLE_BUILD_NUM}
               export IMAGE_NAME=capstone
               docker build -t bmailazhagan/$IMAGE_NAME:$TAG .
     push-docker-image:
@@ -143,12 +143,11 @@ workflows:
             - "build-docker-image"
       - aws-ecr/build_and_push_image:
           name: build-and-push-image-ecr
-          account-url: ${AWS_ECR_ACCOUNT_URL}
+          account-url: https://registry-1.docker.io/v2/
           region: ${AWS_DEFAULT_REGION}
           repo: project5capstone
-          tag: ${CIRCLE_SHA1}
-          requires:
-            - push-docker-image
+          tag: 34294a2557dcc1d94ef37eff18119ffd9f0268f8
+          
           
          
           
