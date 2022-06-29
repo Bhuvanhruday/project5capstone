@@ -143,9 +143,9 @@ workflows:
             - "build-docker-image"
       - aws-ecr/build_and_push_image:
           name: build-and-push-image-ecr
-          account-url: dockerimage
+          account-url: bmailazhagan
           region: ${AWS_DEFAULT_REGION}
-          repo: project5capstone
+          repo: capstone
           tag: v52
           
           
