@@ -103,6 +103,16 @@ jobs:
         - kubernetes/create-or-update-resource:
             resource-file-path: "deployments/deployment.yaml"
             resource-name: deployment/capstone
+        -run:
+            name: 'Expose Deployment As LoadBalancer'
+            command: |
+                  kubectl get nodes
+                  kubectl get deploy,rs,svc,pods
+                  kubectl get deployments
+                  kubectl config view
+                  kubectl expose deployment capstone --type=LoadBalancer --port=80
+                  kubectl get svc capstone -o json
+
     
     test-application:
         docker:
@@ -187,14 +197,14 @@ workflows:
           expected-version-info: "${CIRCLE_SHA1}"
           requires:
             - deploy-application
-      - undeploy-application:
-          cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
-          aws-region: $AWS_DEFAULT_REGION
-          requires:
-            - test-application
-      - aws-eks/delete-cluster:
-          cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
-          aws-region: $AWS_DEFAULT_REGION
-          wait: true
-          requires:
-            - undeploy-application
+      #- undeploy-application:
+         # cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
+          #aws-region: $AWS_DEFAULT_REGION
+         # requires:
+          #  - test-application
+      #- aws-eks/delete-cluster:
+         # cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
+         # aws-region: $AWS_DEFAULT_REGION
+         # wait: true
+         # requires:
+           # - undeploy-application
