@@ -143,10 +143,10 @@ workflows:
             - "build-docker-image"
       - aws-ecr/build_and_push_image:
           name: build-and-push-image-ecr
-          account-url: https://registry-1.docker.io/v2/
+          account-url: https://registry-1.docker.io/v2
           region: ${AWS_DEFAULT_REGION}
           repo: project5capstone
-          tag: 34294a2557dcc1d94ef37eff18119ffd9f0268f8
+          tag: v52
           
           
          
