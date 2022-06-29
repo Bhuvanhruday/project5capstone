@@ -103,15 +103,15 @@ jobs:
         - kubernetes/create-or-update-resource:
             resource-file-path: "deployments/deployment.yaml"
             resource-name: deployment/capstone
-        -run:
+        - run:
             name: 'Expose Deployment As LoadBalancer'
             command: |
-                  kubectl get nodes
-                  kubectl get deploy,rs,svc,pods
-                  kubectl get deployments
-                  kubectl config view
-                  kubectl expose deployment capstone --type=LoadBalancer --port=80
-                  kubectl get svc capstone -o json
+              kubectl get nodes
+              kubectl get deploy,rs,svc,pods
+              kubectl get deployments
+              kubectl config view
+              kubectl expose deployment capstone --type=LoadBalancer --port=80
+              kubectl get svc capstone -o json
 
     
     test-application:
