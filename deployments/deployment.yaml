@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: bmailazhagan/capstone
+        image: bmailazhagan/project5capstone
         resources:
           requests:
             cpu: 100m

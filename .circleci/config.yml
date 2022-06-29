@@ -79,7 +79,7 @@ jobs:
             install-kubectl: true
             aws-region: << parameters.aws-region >>
         - kubernetes/create-or-update-resource:
-            resource-file-path: "deployments/deployment.yml"
+            resource-file-path: "deployments/deployment.yaml"
             resource-name: deployment/capstone
     
     test-application:
@@ -145,17 +145,19 @@ workflows:
       - build-docker-image
       - push-docker-image:
           requires:
-            - "build-docker-image"
-     
+            - "build-docker-image"     
           
       - aws-eks/create-cluster:
           cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
           aws-region: $AWS_DEFAULT_REGION
+          node-type: t2.micro
+          nodes-max: 2
+          external-dns-access: true
           
       - deploy-application:
           cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
           aws-region: $AWS_DEFAULT_REGION
-          docker-image-name: "${AWS_ECR_ACCOUNT_URL}/eks_orb_capstone_project:${CIRCLE_SHA1}"
+          docker-image-name: "bmailazhagan/project5capstone"
           version-info: "${CIRCLE_SHA1}"
           requires:
             - aws-eks/create-cluster
