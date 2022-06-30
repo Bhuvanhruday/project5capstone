@@ -124,9 +124,16 @@ jobs:
             cluster-name: << parameters.cluster-name >>
             install-kubectl: true
             aws-region: << parameters.aws-region >>
-        - kubernetes/create-or-update-resource:
-            resource-file-path: "deployments/deployment.yaml"
-            resource-name: deployment/capstone
+        - run:
+            name: ' kubectl nodes'
+            command: |
+                kubectl version --short --client
+                aws eks update-kubeconfig --name udacitycapstonecluster --region us-east-1
+                kubectl get nodes
+         - run:
+            name: 'deploy to cluster'
+            command: |
+               kubectl create deployment project5capstone --image=bmailazhagan/project5capstonerepo:project5capstone
         - run:
             name: 'Expose Deployment As LoadBalancer'
             command: |
@@ -134,9 +141,9 @@ jobs:
               kubectl get deploy,rs,svc,pods
               kubectl get deployments
               kubectl config view
-              kubectl expose deployment capstone --type=LoadBalancer --port=80
-              kubectl get svc capstone -o json
-
+              kubectl expose deployment project5capstone --type=LoadBalancer --port=80
+              kubectl get svc project5capstone -o json
+       
     
     test-application:
         docker:
