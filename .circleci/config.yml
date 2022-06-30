@@ -31,8 +31,9 @@ jobs:
             name: 'install nginx'
             command: |
               sudo apt-get update -y
-              sudo apt-get install -y nginx,curl             
-              curl --version
+              sudo apt-get install -y nginx
+              sudo apt-get install -y curl         
+              
         - run:
             name: 'build-app-locally'
             command: |
