@@ -20,7 +20,40 @@ jobs:
             name: Run Lint
             command: |
               /bin/hadolint Dockerfile
-    build-docker-image:
+    build-local-app:
+      docker:
+        - image: cimg/base:2022.06
+      steps:
+        - checkout
+        - attach_workspace:
+            at: ~/
+        - run:
+          name: 'install nginx'
+          command: |
+                    sudo apt-get update -y
+                    sudo apt-get install -y nginx
+                    sudo apt-get install -y curl
+                    curl --version
+        - run:
+          name: 'build-app-locally'
+          command: |
+                    sudo cp ./nginx.conf /etc/nginx/nginx.conf
+                    sudo cp -r ./www /www
+        - run:
+          name: 'run-local-app'
+          command: |
+                    sudo service nginx start
+        - run:
+          name: 'test-local-app'
+          command: |
+                    export URL="http://localhost:80"
+                    if curl -s ${URL} | grep "Hello"
+                    then
+                      echo "success"
+                    else
+                      echo "fail"
+                    fi
+      build-docker-image:
       docker:
         - image: circleci/node:13.8.0
       steps:
@@ -61,19 +94,19 @@ jobs:
           type: string
       steps:      
         - attach_workspace:
-            at: ~/         
-            
+            at: ~/
         - aws-eks/create-cluster:
             cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
             aws-region: 'us-east-1'
             zones: 'us-east-1a,us-east-1b'
             skip-kubectl-install: false
             show-eksctl-command: true
-            verbose: 3            
+            verbose: 3
+            node-type: t2.micro
             nodes-max: 2
             external-dns-access: true
-            resource-file-path: "cloudfront/infrastructure.yml"
-            
+        - run:
+            kubectl get nodes
     deploy-application:
       docker:
       # Use the same Docker base as the project
@@ -108,7 +141,7 @@ jobs:
         - run:
             name: 'Expose Deployment As LoadBalancer'
             command: |
-              kubectl get nodes
+              
               kubectl get deploy,rs,svc,pods
               kubectl get deployments
               kubectl config view
