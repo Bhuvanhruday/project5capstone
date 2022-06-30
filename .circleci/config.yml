@@ -30,29 +30,28 @@ jobs:
         - run:
           name: 'install nginx'
           command: |
-                    sudo apt-get update -y
-                    sudo apt-get install -y nginx
-                    sudo apt-get install -y curl
-                    curl --version
+             sudo apt-get update -y
+             sudo apt-get install -y nginx,curl             
+             curl --version
         - run:
           name: 'build-app-locally'
           command: |
-                    sudo cp ./nginx.conf /etc/nginx/nginx.conf
-                    sudo cp -r ./www /www
+             sudo cp ./nginx.conf /etc/nginx/nginx.conf
+             sudo cp -r ./app /usr/share/nginx/html/
         - run:
           name: 'run-local-app'
           command: |
-                    sudo service nginx start
+             sudo service nginx start
         - run:
           name: 'test-local-app'
           command: |
-                    export URL="http://localhost:80"
-                    if curl -s ${URL} | grep "Hello"
-                    then
-                      echo "success"
-                    else
-                      echo "fail"
-                    fi
+              export URL="http://localhost:80"
+              if curl -s ${URL} | grep "Hello"
+              then
+                echo "success"
+              else
+                echo "fail"
+              fi
       build-docker-image:
       docker:
         - image: circleci/node:13.8.0
@@ -209,6 +208,7 @@ workflows:
   default:
     jobs:
       - run-lint
+      - build-local-app
       - build-docker-image
       - push-docker-image:
           requires:
