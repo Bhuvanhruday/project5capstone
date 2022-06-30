@@ -37,6 +37,7 @@ jobs:
         - run:
             name: 'build-app-locally'
             command: |
+              echo pwd
               sudo cp ./nginx.conf /etc/nginx/nginx.conf
               sudo cp -r ./app /usr/share/nginx/html/
         - run:
@@ -94,8 +95,7 @@ jobs:
             node-type: t2.micro
             nodes-max: 2
             external-dns-access: true
-        - run:
-            kubectl get nodes
+        
     deploy-application:
       docker:
       # Use the same Docker base as the project
@@ -222,14 +222,14 @@ workflows:
           expected-version-info: "${CIRCLE_SHA1}"
           requires:
             - deploy-application
-      #- undeploy-application:
-         # cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
-          #aws-region: $AWS_DEFAULT_REGION
-         # requires:
-          #  - test-application
-      #- aws-eks/delete-cluster:
-         # cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
-         # aws-region: $AWS_DEFAULT_REGION
-         # wait: true
-         # requires:
-           # - undeploy-application
+      - undeploy-application:
+          cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
+          aws-region: $AWS_DEFAULT_REGION
+          requires:
+           - test-application
+      - aws-eks/delete-cluster:
+          cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
+          aws-region: $AWS_DEFAULT_REGION
+          wait: true
+          requires:
+            - undeploy-application
