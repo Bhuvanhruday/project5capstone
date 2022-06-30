@@ -52,21 +52,19 @@ jobs:
               else
                 echo "fail"
               fi
-      build-docker-image:
-      docker:
-        - image: circleci/node:13.8.0
-      steps:
-        - checkout
-
-        - setup_remote_docker:
-            version: 19.03.13
-
-        - run:
-            name: Build Docker Image
-            command: |
-              export TAG=${CIRCLE_BUILD_NUM}
-              export IMAGE_NAME=project5capstone
-              docker build -t bmailazhagan/$IMAGE_NAME:$TAG .
+    build-docker-image:
+       docker:
+         - image: circleci/node:13.8.0
+       steps:
+         - checkout
+         - setup_remote_docker:
+              version: 19.03.13
+         - run:
+             name: Build Docker Image
+             command: |
+                export TAG=${CIRCLE_BUILD_NUM}
+                export IMAGE_NAME=project5capstone
+                docker build -t bmailazhagan/$IMAGE_NAME:$TAG .
     push-docker-image:
       docker:
         - image: circleci/node:13.8.0
