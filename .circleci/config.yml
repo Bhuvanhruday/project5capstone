@@ -28,30 +28,21 @@ jobs:
         - attach_workspace:
             at: ~/
         - run:
-          name: 'install nginx'
-          command: |
-             sudo apt-get update -y
-             sudo apt-get install -y nginx,curl             
-             curl --version
+            name: 'install nginx'
+            command: |
+              sudo apt-get update -y
+              sudo apt-get install -y nginx,curl             
+              curl --version
         - run:
-          name: 'build-app-locally'
-          command: |
-             sudo cp ./nginx.conf /etc/nginx/nginx.conf
-             sudo cp -r ./app /usr/share/nginx/html/
+            name: 'build-app-locally'
+            command: |
+              sudo cp ./nginx.conf /etc/nginx/nginx.conf
+              sudo cp -r ./app /usr/share/nginx/html/
         - run:
-          name: 'run-local-app'
-          command: |
-             sudo service nginx start
-        - run:
-          name: 'test-local-app'
-          command: |
-              export URL="http://localhost:80"
-              if curl -s ${URL} | grep "Hello"
-              then
-                echo "success"
-              else
-                echo "fail"
-              fi
+            name: 'run-local-app'
+            command: |
+              sudo service nginx start
+        
     build-docker-image:
        docker:
          - image: circleci/node:13.8.0
