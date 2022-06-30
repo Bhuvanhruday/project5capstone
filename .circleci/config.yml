@@ -61,17 +61,19 @@ jobs:
           type: string
       steps:      
         - attach_workspace:
-            at: ~/
+            at: ~/         
+            
         - aws-eks/create-cluster:
             cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
             aws-region: 'us-east-1'
             zones: 'us-east-1a,us-east-1b'
             skip-kubectl-install: false
             show-eksctl-command: true
-            verbose: 3
-            node-type: t2.micro
+            verbose: 3            
             nodes-max: 2
             external-dns-access: true
+            resource-file-path: "cloudfront/infrastructure.yml"
+            
     deploy-application:
       docker:
       # Use the same Docker base as the project
