@@ -131,10 +131,10 @@ jobs:
               aws eks update-kubeconfig --name udacitycapstonecluster --region us-east-1
               kubectl get nodes
 
-         - run:
-              name: 'deploy to cluster'
-              command: |
-                 kubectl create deployment project5capstone --image=bmailazhagan/project5capstonerepo:project5capstone
+        - run:
+            name: 'deploy to cluster'
+            command: |
+               kubectl create deployment project5capstone --image=bmailazhagan/project5capstonerepo:project5capstone
         - run:
             name: 'Expose Deployment As LoadBalancer'
             command: |              
