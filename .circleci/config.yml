@@ -136,13 +136,12 @@ jobs:
                  kubectl create deployment project5capstone --image=bmailazhagan/project5capstonerepo:project5capstone
         - run:
             name: 'Expose Deployment As LoadBalancer'
-            command: |
-              
-              kubectl get deploy,rs,svc,pods
-              kubectl get deployments
-              kubectl config view
-              kubectl expose deployment project5capstone --type=LoadBalancer --port=80
-              kubectl get svc project5capstone -o json
+            command: |              
+               kubectl get deploy,rs,svc,pods
+               kubectl get deployments
+               kubectl config view
+               kubectl expose deployment project5capstone --type=LoadBalancer --port=80
+               kubectl get svc project5capstone -o json
        
     
     test-application:
