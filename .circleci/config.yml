@@ -134,7 +134,7 @@ jobs:
         - run:
             name: 'deploy to cluster'
             command: |
-               kubectl create deployment project5capstone --image=bmailazhagan/project5capstonerepo:project5capstone
+               kubectl create deployment project5capstone --image=bmailazhagan/$IMAGE_NAME:$TAG
         - run:
             name: 'Expose Deployment As LoadBalancer'
             command: |              
@@ -219,7 +219,7 @@ workflows:
       - deploy-application:
           cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
           aws-region: $AWS_DEFAULT_REGION
-          docker-image-name: "bmailazhagan/project5capstone"
+          docker-image-name: bmailazhagan/$IMAGE_NAME:$TAG
           version-info: "${CIRCLE_SHA1}"
           requires:
             - create-cluster-eks
@@ -229,14 +229,14 @@ workflows:
           expected-version-info: "${CIRCLE_SHA1}"
           requires:
             - deploy-application
-      - undeploy-application:
-          cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
-          aws-region: $AWS_DEFAULT_REGION
-          requires:
-           - test-application
-      - aws-eks/delete-cluster:
-          cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
-          aws-region: $AWS_DEFAULT_REGION
-          wait: true
-          requires:
-            - undeploy-application
+      # - undeploy-application:
+      #     cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
+      #     aws-region: $AWS_DEFAULT_REGION
+      #     requires:
+      #      - test-application
+      # - aws-eks/delete-cluster:
+      #     cluster-name: eks-orb-capstone-project-deployment-${CIRCLE_WORKFLOW_ID:0:7}
+      #     aws-region: $AWS_DEFAULT_REGION
+      #     wait: true
+      #     requires:
+      #       - undeploy-application
