@@ -70,9 +70,9 @@ jobs:
             command: |
               export TAG=v${CIRCLE_BUILD_NUM}
               export IMAGE_NAME=project5capstone
-              docker build -t bmailazhagan/$IMAGE_NAME:$TAG .
+              docker build -t bmailazhagan/$IMAGE_NAME .
               docker login -u bmailazhagan -p Welcome01
-              docker push bmailazhagan/$IMAGE_NAME:$TAG
+              docker push bmailazhagan/$IMAGE_NAME
 
     create-cluster-eks:
       docker:
@@ -134,7 +134,7 @@ jobs:
         - run:
             name: 'deploy to cluster'
             command: |
-               kubectl create deployment project5capstone --image=bmailazhagan/$IMAGE_NAME:$TAG
+               kubectl create deployment project5capstone --image=bmailazhagan/project5capstone
         - run:
             name: 'Expose Deployment As LoadBalancer'
             command: |              
