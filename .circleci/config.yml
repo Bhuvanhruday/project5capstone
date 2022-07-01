@@ -140,7 +140,7 @@ jobs:
             command: |              
                kubectl get deploy,rs,svc,pods
                kubectl get deployments
-               kubectl config view
+              # kubectl config view
                kubectl expose deployment project5capstone --type=LoadBalancer --port=80
                kubectl get svc project5capstone -o json
        
