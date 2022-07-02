@@ -2,11 +2,9 @@ FROM nginx:stable
 
 RUN rm /usr/share/nginx/html/index.html
 
-#COPY ./app/index.html /usr/share/nginx/html
-
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY ./app/index.html www
+COPY ./www www
 
 EXPOSE 80
 
