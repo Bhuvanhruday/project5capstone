@@ -37,12 +37,13 @@ jobs:
         - run:
             name: 'build-app-locally'
             command: |
-              echo pwd
+              
               sudo cp ./nginx.conf /etc/nginx/nginx.conf
               sudo cp -r ./www /www
         - run:
             name: 'run-local-app'
             command: |
+              sudo nginx -t 
               sudo service nginx start
         - run:
             name: 'test-local-app'
@@ -54,6 +55,7 @@ jobs:
                else
                  echo "fail"
                fi
+               cat /var/log/nginx/error.log
         
     build-docker-image:
        docker:
@@ -153,7 +155,7 @@ jobs:
                kubectl get nodes -o wide           
                kubectl get deploy,pods
                kubectl get deployments        
-               kubectl port-forward project4-docker-udacity 8000:80      
+               kubectl port-forward project5capstone 8000:80      
                kubectl expose deployment project5capstone --type=LoadBalancer --port=80
                
                kubectl get svc project5capstone -o json
