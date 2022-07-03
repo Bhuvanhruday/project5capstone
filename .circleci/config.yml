@@ -190,6 +190,7 @@ jobs:
                 kubectl get pods                
                 kubectl get svc project5capstone -o json
                 kubectl get pods -o wide
+                git describe project5capstone
     undeploy-application:
       docker:
       # Use the same Docker base as the project
