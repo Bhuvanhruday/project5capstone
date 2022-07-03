@@ -155,10 +155,8 @@ jobs:
             command: |   
                kubectl get nodes -o wide           
                kubectl get deploy,pods
-               kubectl get deployments        
-             # kubectl port-forward project5capstone 8000:80      
-               kubectl expose deployment project5capstone --type=LoadBalancer --port=80
-               
+               kubectl get deployments               
+               kubectl expose deployment project5capstone --type=LoadBalancer --port=80               
                kubectl get svc project5capstone -o json
        
     
