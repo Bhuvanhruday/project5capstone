@@ -4,7 +4,7 @@ RUN rm /usr/share/nginx/html/index.html
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY ./www www
+COPY ./www/data /usr/share/nginx/html/
 
 EXPOSE 80
 

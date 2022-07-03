@@ -187,9 +187,9 @@ jobs:
           - run:
               name: Wait for service to be ready
               command: |
-                kubectl get pods
-                kubectl port-forward project5capstone 8000:80  
+                kubectl get pods                
                 kubectl get svc project5capstone -o json
+                kubectl get pods -o wide
     undeploy-application:
       docker:
       # Use the same Docker base as the project
