@@ -37,9 +37,10 @@ jobs:
         - run:
             name: 'build-app-locally'
             command: |
-              
+              pwd
+              ls -lrt
               sudo cp ./nginx.conf /etc/nginx/nginx.conf
-              sudo cp -r ./www/data /usr/share/nginx/html/
+              sudo cp  ./www/data/ /usr/share/nginx/html/
         - run:
             name: 'run-local-app'
             command: |
@@ -190,6 +191,7 @@ jobs:
               name: Wait for service to be ready
               command: |                
                 kubectl get pods -o wide
+                kubectl expose deployment project5capstone-depl  --type=LoadBalancer --port=80
                 
     undeploy-application:
       docker:
