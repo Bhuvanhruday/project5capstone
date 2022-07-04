@@ -56,7 +56,7 @@ jobs:
                  echo "fail"
                fi
                sudo cat /var/log/nginx/error.log
-               sudo cat /www/index.html
+               sudo cat /usr/share/nginx/html/index.html
         
     build-docker-image:
        docker:
