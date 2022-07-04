@@ -39,7 +39,7 @@ jobs:
             command: |
               
               sudo cp ./nginx.conf /etc/nginx/nginx.conf
-              sudo cp -r ./www /www
+              sudo cp -r ./www/data /usr/share/nginx/html/
         - run:
             name: 'run-local-app'
             command: |
@@ -70,7 +70,7 @@ jobs:
              command: |
                 export TAG=${CIRCLE_BUILD_NUM}
                 export IMAGE_NAME=project5capstone
-                docker build -t bmailazhagan/$IMAGE_NAME:$TAG .
+                docker build -t bmailazhagan/$IMAGE_NAME .
     push-docker-image:
       docker:
         - image: circleci/node:13.8.0
@@ -147,17 +147,19 @@ jobs:
         - run:
             name: 'deploy to cluster'
             command: |
-               kubectl create deployment project5capstone --image=bmailazhagan/project5capstone
-               kubectl run project5capstone  --image=bmailazhagan/project5capstone --port=80
+               kubectl create deployment project5capstone-depl --image=bmailazhagan/project5capstone
+              
 
         - run:
             name: 'Expose Deployment As LoadBalancer'
-            command: |   
-               kubectl get nodes -o wide           
-               kubectl get deploy,pods
-               kubectl get deployments               
-               kubectl expose deployment project5capstone --type=LoadBalancer --port=80               
-               kubectl get svc project5capstone -o json
+            command: |                 
+               kubectl get deployment -o wide
+               kubectl get pod -o wide             
+               kubectl create service nodeport project5capstone-depl --tcp=80:80
+               kubectl get services
+               kubectl get nodes -o wide
+
+
        
     
     test-application:
@@ -186,11 +188,9 @@ jobs:
               aws-region: << parameters.aws-region >>
           - run:
               name: Wait for service to be ready
-              command: |
-                kubectl get pods                
-                kubectl get svc project5capstone -o json
+              command: |                
                 kubectl get pods -o wide
-                git describe project5capstone
+                
     undeploy-application:
       docker:
       # Use the same Docker base as the project
