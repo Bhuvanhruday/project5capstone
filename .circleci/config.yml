@@ -40,7 +40,10 @@ jobs:
               pwd
               ls -lrt
               sudo cp ./nginx.conf /etc/nginx/nginx.conf
-              sudo cp  ./www/data/ /usr/share/nginx/html/
+              cat ./www/data/index.html
+              sudo rm /usr/share/nginx/html/index.html
+              sudo cp -r ./www/data/ /usr/share/nginx/html/
+              sudo cat /usr/share/nginx/html/index.html
         - run:
             name: 'run-local-app'
             command: |
