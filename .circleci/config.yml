@@ -43,8 +43,10 @@ jobs:
               cat ./www/data/index.html
               sudo rm /usr/share/nginx/html/index.html
               sudo cp -r ./www/data/ /usr/share/nginx/html/
-              sudo ls -lrt /usr/share/nginx/htmml
-              sudo cat /usr/share/nginx/html/index.html
+              sudo cp -r ./www/data/ /var/www/html/
+              sudo ls -lrt /usr/share/nginx/html
+              sudo ls -lrt /etc/nginx/sites-enabled/
+              sudo cat /var/www/html/index.html
         - run:
             name: 'run-local-app'
             command: |
@@ -162,8 +164,10 @@ jobs:
             name: 'Expose Deployment As LoadBalancer'
             command: |                 
                kubectl get deployment -o wide
-               kubectl get pod -o wide             
-               kubectl create service nodeport project5capstone-depl --tcp=80:80
+               kubectl get pod -o wide    
+               
+               kubectl expose deployment project5capstone-depl  --type=LoadBalancer --port=80
+
                kubectl get services
                kubectl get nodes -o wide
 
@@ -198,7 +202,7 @@ jobs:
               name: Wait for service to be ready
               command: |                
                 kubectl get pods -o wide
-                kubectl expose deployment project5capstone-depl  --type=LoadBalancer --port=80
+                curl localhost:80
                 
     undeploy-application:
       docker:
