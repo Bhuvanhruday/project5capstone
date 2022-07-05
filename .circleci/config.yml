@@ -43,12 +43,16 @@ jobs:
               cat ./www/data/index.html
               sudo rm /usr/share/nginx/html/index.html
               sudo cp -r ./www/data/ /usr/share/nginx/html/
+              sudo ls -lrt /usr/share/nginx/htmml
               sudo cat /usr/share/nginx/html/index.html
         - run:
             name: 'run-local-app'
             command: |
               sudo nginx -t 
-              sudo service nginx start
+              sudo nginx -V
+              sudo nginx  -c /etc/nginx/nginx.conf
+
+              
         - run:
             name: 'test-local-app'
             command: |
