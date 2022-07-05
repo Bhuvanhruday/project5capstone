@@ -67,8 +67,7 @@ jobs:
                else
                  echo "fail"
                fi
-               sudo cat /var/log/nginx/error.log
-               sudo cat /usr/share/nginx/html/index.html
+               sudo cat /var/log/nginx/error.log               
         
     build-docker-image:
        docker:
