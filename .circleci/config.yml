@@ -46,7 +46,8 @@ jobs:
               sudo cp -r ./www/data/ /var/www/html/
               sudo ls -lrt /usr/share/nginx/html/data
               sudo ls -lrt /etc/nginx/sites-enabled/
-              sudo ls-lrt /etc/nginx/sites-available/default/
+              sudo ls -lrt /etc/nginx/sites-available/default
+              
              
         - run:
             name: 'run-local-app'
@@ -168,7 +169,7 @@ jobs:
             name: 'Expose Deployment As LoadBalancer'
             command: |                 
                kubectl get deployment -o wide
-               kubectl get pod -o wide    
+               kubectl get pod -o wide   
                
                kubectl expose deployment project5capstone-depl  --type=LoadBalancer --port=80
 
@@ -208,7 +209,7 @@ jobs:
               name: Wait for service to be ready
               command: |                
                 kubectl get pods -o wide
-                curl localhost:80
+                
                 
     undeploy-application:
       docker:
